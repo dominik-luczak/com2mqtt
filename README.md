@@ -54,3 +54,40 @@ or on Windows:
 ```
 
 This prints each MQTT payload from the topic so you can confirm the bridge is publishing correctly.
+
+## Plot JSON from device (COM3)
+
+This script reads JSON frames directly from serial and makes a live plot of numeric fields.
+
+It supports both:
+
+- scalar numeric JSON fields
+- packet JSON arrays (for example `{"type":"ppg","red":[...],"ir":[...]}`)
+
+```powershell
+python serial_json_plot.py
+```
+
+or on Windows:
+
+```powershell
+.\run_plot.bat
+```
+
+Defaults:
+
+- Serial: `COM3`, `115200`, `8N1`
+- Frame check field: `frame` (must be numeric and increasing)
+- X-axis field: `timestamp` (if missing, sample index is used)
+
+Example with explicit frame and x fields:
+
+```powershell
+python serial_json_plot.py --serial-port COM3 --baudrate 115200 --frame-field frame --x-field timestamp
+```
+
+Quick frame validation in terminal (no plot window):
+
+```powershell
+python serial_json_plot.py --check-only --duration 10 --serial-port COM3 --frame-field frame
+```
